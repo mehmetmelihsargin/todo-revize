@@ -12,7 +12,8 @@ import RadioButtonChecked from '@/public/radioButtonChecked.js';
 function Modal(props) {
     const { isOpen, setOpen } = props;
     const [isPinned, setIsPinned] = useState(false);
-    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false)
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+    const [keyboardHeight, setkeyboardHeight] = useState(0)
     const handleSubmit = () => {
         setOpen(false);
     }
@@ -25,7 +26,8 @@ function Modal(props) {
     const handleResize = () => {
         const windowHeight = window.innerHeight;
         const keyboardHeight = windowHeight - document.documentElement.clientHeight;
-        setIsKeyboardOpen(keyboardHeight > 0)
+        setkeyboardHeight(keyboardHeight)
+        setIsKeyboardOpen(keyboardHeight > 0);
     }
 
 
