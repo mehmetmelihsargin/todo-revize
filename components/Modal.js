@@ -18,7 +18,7 @@ function Modal(props) {
     }
     useEffect(() => {
         setsdg(window.screen.availHeight)
-    }, [])
+    }, [sdg])
 
 
     return (
