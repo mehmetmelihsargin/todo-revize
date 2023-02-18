@@ -15,6 +15,8 @@ function Modal(props) {
     const handleSubmit = () => {
         setOpen(false);
     }
+    const x = window.screen.availHeight;
+    console.log(x, 'melih')
     return (
         <div>
             <Sheet
@@ -50,11 +52,13 @@ function Modal(props) {
                                     <div className="w-full py-10 space-y-8 flex flex-col">
                                         <div className="w-full">
                                             <input
+                                                onClick={() => console.log(window.screen.availHeight, 'umit')}
                                                 type="text"
                                                 className="w-full capitalize border-2 rounded-[4px] p-2 outline-[#21A7F9]"
                                                 placeholder="Task Description"
 
                                             />
+                                            {window.screen.availHeight}
                                         </div>
                                         <div className="flex  justify-between items-center">
                                             <div className="flex w-1/3 justify-between">
