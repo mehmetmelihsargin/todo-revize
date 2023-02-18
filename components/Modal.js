@@ -12,23 +12,11 @@ import RadioButtonChecked from '@/public/radioButtonChecked.js';
 function Modal(props) {
     const { isOpen, setOpen } = props;
     const [isPinned, setIsPinned] = useState(false);
-    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
-    const [keyboardHeight, setkeyboardHeight] = useState(0)
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false)
     const handleSubmit = () => {
         setOpen(false);
     }
-    useEffect(() => {
-        window.addEventListener('resize', handleResize)
-        return () => {
-            window.removeEventListener('resize', handleResize)
-        }
-    }, [])
-    const handleResize = () => {
-        const windowHeight = window.innerHeight;
-        const keyboardHeight = windowHeight - document.documentElement.clientHeight;
-        setkeyboardHeight(keyboardHeight)
-        setIsKeyboardOpen(keyboardHeight > 0);
-    }
+
 
 
 
@@ -63,16 +51,15 @@ function Modal(props) {
                         </div>
                         <div className="min-h-[582px] h-auto">
                             <div className="flex flex-col items-center">
-                                <div className="min-h-[582px] h-auto flex flex-col justify-between">
+                                <div className={`min-h-[582px] h-auto flex flex-col ${isKeyboardOpen ? '' : 'justify-between'}`}>
                                     <div className="w-full py-10 space-y-8 flex flex-col">
                                         <div className="w-full">
                                             <input
-                                                onClick={() => console.log(window.screen.availHeight, 'umit')}
+                                                onClick={() => setIsKeyboardOpen((true))}
                                                 type="text"
                                                 className="w-full capitalize border-2 rounded-[4px] p-2 outline-[#21A7F9]"
                                                 placeholder="Task Description"
-                                                onFocus={() => setIsKeyboardOpen(true)}
-                                                onBlur={() => setIsKeyboardOpen(false)}
+
 
                                             />
 
@@ -94,7 +81,7 @@ function Modal(props) {
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col" style={{ marginBottom: isKeyboardOpen ? keyboardHeight : 0 }} >
+                                    <div className="flex flex-col">
                                         <button
                                             onClick={handleSubmit}
 
