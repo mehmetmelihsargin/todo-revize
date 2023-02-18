@@ -15,8 +15,12 @@ function Modal(props) {
     const handleSubmit = () => {
         setOpen(false);
     }
-    const x = window.screen.availHeight;
-    console.log(x, 'melih')
+    useEffect(() => {
+        let sdg = window.screen.availHeight;
+        console.log(sdg, 'melih')
+    }, [sdg])
+
+
     return (
         <div>
             <Sheet
@@ -58,7 +62,7 @@ function Modal(props) {
                                                 placeholder="Task Description"
 
                                             />
-                                            {window.screen.availHeight}
+                                            {sdg}
                                         </div>
                                         <div className="flex  justify-between items-center">
                                             <div className="flex w-1/3 justify-between">
