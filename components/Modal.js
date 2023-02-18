@@ -12,16 +12,22 @@ import RadioButtonChecked from '@/public/radioButtonChecked.js';
 function Modal(props) {
     const { isOpen, setOpen } = props;
     const [isPinned, setIsPinned] = useState(false);
-    const [sdg, setsdg] = useState()
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false)
     const handleSubmit = () => {
         setOpen(false);
     }
-    setInterval(() => {
-        setsdg(window.screen.availHeight)
-    }, 5000);
     useEffect(() => {
-        setsdg(window.screen.availHeight)
-    }, [sdg])
+        window.addEventListener('resize', handleResize)
+        return () => {
+            window.removeEventListener('resize', handleResize)
+        }
+    }, [])
+    const handleResize = () => {
+        const windowHeight = window.innerHeight;
+        const keyboardHeight = windowHeight - document.documentElement.clientHeight;
+        setIsKeyboardOpen(keyboardHeight > 0)
+    }
+
 
 
     return (
@@ -63,9 +69,11 @@ function Modal(props) {
                                                 type="text"
                                                 className="w-full capitalize border-2 rounded-[4px] p-2 outline-[#21A7F9]"
                                                 placeholder="Task Description"
+                                                onFocus={() => setIsKeyboardOpen(true)}
+                                                onBlur={() => setIsKeyboardOpen(false)}
 
                                             />
-                                            {sdg}
+
                                         </div>
                                         <div className="flex  justify-between items-center">
                                             <div className="flex w-1/3 justify-between">
@@ -84,9 +92,10 @@ function Modal(props) {
                                             </button>
                                         </div>
                                     </div>
-                                    <div className="flex flex-col">
+                                    <div className="flex flex-col" style={{ marginBottom: isKeyboardOpen ? keyboardHeight : 0 }} >
                                         <button
                                             onClick={handleSubmit}
+
                                             className="h-auto min-h-[52px] w-full bg-[#21A7F9] text-white"
                                         >
                                             Save
