@@ -19,7 +19,7 @@ function TodoItem() {
                 <h2 className="capitalize">Lorem Ipsum Dolor</h2>
 
             </div>
-            <button onClick={() => setIsOpenTodoModal(true)} className="flex items-center">
+            <button onClick={() => setIsOpenTodoModal(true)} className="flex p-2 items-center">
                 <Dots />
             </button>
             <TodoItemModal isOpenTodoModal={isOpenTodoModal} setIsOpenTodoModal={setIsOpenTodoModal} />

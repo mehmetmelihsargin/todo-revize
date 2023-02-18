@@ -17,14 +17,11 @@ function Modal(props) {
         setOpen(false);
     }
 
-
-
-
     return (
         <div>
             <Sheet
                 isOpen={isOpen}
-                onClose={() => props.setOpen(false)}
+                onClose={() => setOpen(false)}
                 snapPoints={[642]}
                 initialSnap={0}
             >
@@ -55,7 +52,8 @@ function Modal(props) {
                                     <div className="w-full py-10 space-y-8 flex flex-col">
                                         <div className="w-full">
                                             <input
-                                                onClick={() => setIsKeyboardOpen((true))}
+                                                onFocus={() => setIsKeyboardOpen(true)}
+                                                onBlur={() => setIsKeyboardOpen(false)}
                                                 type="text"
                                                 className="w-full capitalize border-2 rounded-[4px] p-2 outline-[#21A7F9]"
                                                 placeholder="Task Description"
