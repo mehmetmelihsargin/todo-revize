@@ -12,13 +12,13 @@ import RadioButtonChecked from '@/public/radioButtonChecked.js';
 function Modal(props) {
     const { isOpen, setOpen } = props;
     const [isPinned, setIsPinned] = useState(false);
+    const [sdg, setsdg] = useState()
     const handleSubmit = () => {
         setOpen(false);
     }
     useEffect(() => {
-        let sdg = window.screen.availHeight;
-        console.log(sdg, 'melih')
-    }, [sdg])
+        setsdg(window.screen.availHeight)
+    }, [])
 
 
     return (
