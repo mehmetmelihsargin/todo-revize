@@ -16,6 +16,9 @@ function Modal(props) {
     const handleSubmit = () => {
         setOpen(false);
     }
+    setInterval(() => {
+        setsdg(window.screen.availHeight)
+    }, 5000);
     useEffect(() => {
         setsdg(window.screen.availHeight)
     }, [sdg])
