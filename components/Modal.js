@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Sheet from 'react-modal-sheet';
 import pin from '../public/pin.js'
 import addTask from '../public/addTask.js'
