@@ -1,14 +1,20 @@
 'use client'
 import Image from 'next/image'
-import React, { useState } from 'react'
-import TodoItem from './TodoItem'
+import React, { useState, useContext, useEffect } from 'react'
 import Modal from './Modal'
 import Pin from '../public/pin.js'
 import AddTask from '../public/addTask.js'
 import Arrow from '../public/arrow.js'
+import { Context } from '../context/Context'
+import TodoItem from './TodoItem'
 
 function Board() {
+    const { todoList, pinnedList } = useContext(Context);
     const [isOpen, setOpen] = useState(false);
+
+
+
+
     return (
         <div className="flex flex-col h-5/6 w-11/12 rounded-[8px] bg-white">
             <div className="flex h-auto flex-col justify-center items-center border-b text-blue-800 font-semibold ">
@@ -25,28 +31,34 @@ function Board() {
                                     Pin on the top
                                 </h2>
                             </div>
-                            {/* <div className="flex w-full p-2" >
-                                <TodoItem />
-                            </div> */}
+                            <div className="h-auto max-h-[83%] ">
+                                <ul className="flex flex-col w-full space-y-4 p-2" >
+                                    {
+                                        pinnedList?.map((item) => item.pinned === true ?
+
+                                            <TodoItem isOpen={isOpen} setOpen={setOpen} item={item} key={item.id} /> : null
+
+                                        )
+                                    }
+
+                                </ul>
+
+                            </div>
 
 
                         </div>
                         <div className="h-auto max-h-[83%] ">
-                            <div className="flex w-full p-2" >
-                                <TodoItem />
-                            </div>
-                            <div className="flex w-full p-2" >
-                                <TodoItem />
-                            </div>
-                            <div className="flex w-full p-2" >
-                                <TodoItem />
-                            </div>
-                            <div className="flex w-full p-2" >
-                                <TodoItem />
-                            </div>
-                            <div className="flex w-full p-2" >
-                                <TodoItem />
-                            </div>
+                            <ul className="flex flex-col w-full p-2 space-y-4" >
+                                {
+                                    todoList?.map((item) => item.pinned === false ?
+
+                                        <TodoItem isOpen={isOpen} setOpen={setOpen} item={item} key={item.id} /> : null
+
+                                    )
+                                }
+
+                            </ul>
+
                         </div>
                     </div>
                 </div>
@@ -58,7 +70,7 @@ function Board() {
                 >
                     <div className="flex h-full items-center w-3/5 justify-evenly ">
                         <span className='text-white' >
-                            <AddTask />
+                            <AddTask color={'white'} />
                         </span>
                         Add a Task
                     </div>

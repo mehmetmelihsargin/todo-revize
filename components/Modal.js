@@ -1,21 +1,37 @@
-import Image from 'next/image';
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import Sheet from 'react-modal-sheet';
-import pin from '../public/pin.js'
-import addTask from '../public/addTask.js'
 import AddTask from '../public/addTask.js';
 import Pin from '../public/pin.js';
 import Cross from '@/public/cross.js';
 import RadioButtonEmpty from '@/public/radioButtonEmpty.js';
 import RadioButtonChecked from '@/public/radioButtonChecked.js';
+import { Context } from '../context/Context';
+import { uid } from 'uid';
 
 function Modal(props) {
     const { isOpen, setOpen } = props;
+    const { addTodoList, dataUpdate, setDataUpdate, updateTodoList } = useContext(Context);
     const [isPinned, setIsPinned] = useState(false);
-    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false)
-    const handleSubmit = () => {
+    const [isKeyboardOpen, setIsKeyboardOpen] = useState(false);
+    const [inputValue, setInputValue] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
         setOpen(false);
+        if (dataUpdate) {
+            updateTodoList(dataUpdate.id, inputValue, dataUpdate.pinned)
+        } else if (inputValue !== '') {
+            addTodoList(inputValue, isPinned, uid(3))
+        }
+        setInputValue('')
+        setIsPinned(false)
+        setDataUpdate('')
     }
+    const handleChange = (e) => {
+        setInputValue(e.target.value);
+        console.log(e.target.value, 'e target')
+    }
+
 
     return (
         <div>
@@ -32,10 +48,10 @@ function Modal(props) {
                                 <div className="flex w-2/3 items-center justify-end  text-[#FF7964]">
                                     <span>
                                         {' '}
-                                        <AddTask />
+                                        <AddTask color={'#FF7964'} />
                                     </span>
                                     <h2 className="text-[18px] ml-2 font-semibold ">
-                                        Add a Task
+                                        {dataUpdate !== '' ? 'Update' : 'Add a Task'}
                                     </h2>
                                 </div>
                                 <button
@@ -52,8 +68,12 @@ function Modal(props) {
                                     <div className="w-full py-10 space-y-8 flex flex-col">
                                         <div className="w-full">
                                             <input
+                                                onChange={handleChange}
                                                 onFocus={() => setIsKeyboardOpen(true)}
                                                 onBlur={() => setIsKeyboardOpen(false)}
+                                                defaultValue={
+                                                    dataUpdate !== '' ? dataUpdate.input : inputValue
+                                                }
                                                 type="text"
                                                 className="w-full capitalize border-2 rounded-[4px] p-2 outline-[#21A7F9]"
                                                 placeholder="Task Description"
@@ -85,7 +105,7 @@ function Modal(props) {
 
                                             className="h-auto min-h-[52px] w-full bg-[#21A7F9] text-white"
                                         >
-                                            Save
+                                            {dataUpdate !== '' ? 'Update' : 'Save'}
                                         </button>
                                         <button onClick={() => setOpen(false)} className="h-[54px] w-[311px] text-[#21A7F9] ">
                                             Cancel
