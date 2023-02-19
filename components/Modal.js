@@ -18,18 +18,20 @@ function Modal(props) {
     const handleSubmit = (e) => {
         e.preventDefault()
         setOpen(false);
-        if (dataUpdate) {
-            updateTodoList(dataUpdate.id, inputValue, dataUpdate.pinned)
+        if (dataUpdate && inputValue !== '') {
+            updateTodoList(dataUpdate.id, inputValue, isPinned)
         } else if (inputValue !== '') {
             addTodoList(inputValue, isPinned, uid(3))
+        } else {
+            alert('Deger Girmediniz');
         }
         setInputValue('')
         setIsPinned(false)
         setDataUpdate('')
+        setIsKeyboardOpen(false)
     }
     const handleChange = (e) => {
         setInputValue(e.target.value);
-        console.log(e.target.value, 'e target')
     }
 
 
@@ -70,9 +72,10 @@ function Modal(props) {
                                             <input
                                                 onChange={handleChange}
                                                 onFocus={() => setIsKeyboardOpen(true)}
-                                                onBlur={() => setIsKeyboardOpen(false)}
+
                                                 defaultValue={
-                                                    dataUpdate !== '' ? dataUpdate.input : inputValue
+                                                    // dataUpdate !== '' ? dataUpdate.input :
+                                                    inputValue
                                                 }
                                                 type="text"
                                                 className="w-full capitalize border-2 rounded-[4px] p-2 outline-[#21A7F9]"

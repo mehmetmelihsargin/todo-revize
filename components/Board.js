@@ -1,5 +1,4 @@
 'use client'
-import Image from 'next/image'
 import React, { useState, useContext, useEffect } from 'react'
 import Modal from './Modal'
 import Pin from '../public/pin.js'
@@ -9,10 +8,16 @@ import { Context } from '../context/Context'
 import TodoItem from './TodoItem'
 
 function Board() {
-    const { todoList, pinnedList } = useContext(Context);
+    const { todoList, pinnedList, setTodoList, setPinnedList } = useContext(Context);
     const [isOpen, setOpen] = useState(false);
 
-
+    useEffect(() => {
+        const todoListFromLocalStorage = localStorage.getItem('todoList');
+        if (todoListFromLocalStorage) {
+            setTodoList(JSON.parse(todoListFromLocalStorage));
+            setPinnedList(JSON.parse(todoListFromLocalStorage).find((item) => item.pinned === true))
+        }
+    }, [setTodoList, setPinnedList]);
 
 
     return (
@@ -22,9 +27,9 @@ function Board() {
                 <span className="w-[159px] bg-orange-400"></span>
             </div>
             <div className="h-5/6 flex items-center flex-col">
-                <div className="h-4/5  w-[311px]">
+                <div className="h-4/5 w-11/12">
                     <div className="h-full flex flex-col">
-                        <div className="h-auto min-h-[17%] border-b-2 flex flex-col justify-around">
+                        <div className="h-auto min-h-[30%]  border-b border-gray-300 flex flex-col justify-around">
                             <div className="flex items-center p-2">
                                 <Pin color={'#FF7964'} />
                                 <h2 className="ml-2 text-[#FF7964] text-[14px]">

@@ -5,8 +5,8 @@ import React, { useContext } from 'react';
 import Sheet from 'react-modal-sheet';
 import { Context } from '../context/Context'
 function TodoItemModal(props) {
-    const { removeTodoList, changedPin, sendDataForUpdate, todoList, setTodoList } = useContext(Context);
-    const { isOpenTodoModal, setIsOpenTodoModal, item, isOpen, setOpen } = props;
+    const { removeTodoList, changedPin, sendDataForUpdate } = useContext(Context);
+    const { isOpenTodoModal, setIsOpenTodoModal, item, setOpen } = props;
     const handleDelete = () => {
         removeTodoList(item.id)
         setIsOpenTodoModal(false)
@@ -17,8 +17,6 @@ function TodoItemModal(props) {
         sendDataForUpdate(item)
     }
     function handleChangePin() {
-        console.log(item.id, 'item id');
-
         changedPin(item.id);
     }
     return (

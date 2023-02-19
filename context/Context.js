@@ -5,20 +5,35 @@ export const Context = React.createContext(); export const MyProvider = ({ child
     const [dataUpdate, setDataUpdate] = useState('');
     const [pinnedList, setPinnedList] = useState([]);
 
-
     const addTodoList = (input, pinned, id) => {
         setTodoList([...todoList, { input, pinned, id }]);
+        localStorage.setItem('todoList', JSON.stringify([...todoList, { input, pinned, id }]));
     };
     const removeTodoList = (id) => {
-        setTodoList(todoList.filter((todo) => todo.id !== id));
+        const updatedList = todoList.filter((todo) => todo.id !== id);
+        setTodoList(updatedList);
+        localStorage.setItem('todoList', JSON.stringify(updatedList));
+
     };
     const sendDataForUpdate = (dataToUpdate) => {
         setDataUpdate(dataToUpdate);
-        console.log(dataUpdate, 'data update on context')
     }
     const updateTodoList = (id, input, pinned) => {
-        console.log(id, input, pinned, 'context')
         todoList.find((item) => item.id === id ? (item.input = input, item.pinned = pinned) : null)
+        
+        const updatedList = [...todoList];
+        const itemIndex = updatedList.findIndex((item) => item.id === id);
+
+        if (itemIndex !== -1) {
+            updatedList[itemIndex] = {
+                id: id,
+                input: input,
+                pinned: pinned,
+            };
+
+            setTodoList(updatedList);
+            localStorage.setItem('todoList', JSON.stringify(updatedList));
+        }
     };
     const changedPin = (id) => {
         const updatedPins = todoList.map((todo) => {
@@ -29,7 +44,9 @@ export const Context = React.createContext(); export const MyProvider = ({ child
         });
 
         setTodoList(updatedPins);
+        localStorage.setItem('todoList', JSON.stringify(updatedPins));
     };
+    
     useEffect(() => {
         const pinnedTodos = todoList.filter((todo) => todo.pinned);
         setPinnedList(pinnedTodos);
@@ -40,13 +57,15 @@ export const Context = React.createContext(); export const MyProvider = ({ child
             value={{
                 addTodoList,
                 todoList,
+                setTodoList,
                 removeTodoList,
                 updateTodoList,
                 sendDataForUpdate,
                 dataUpdate,
                 setDataUpdate,
                 changedPin,
-                pinnedList
+                pinnedList,
+                setPinnedList
             }}
         >
             {children}
